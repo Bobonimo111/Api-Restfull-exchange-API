@@ -24,12 +24,16 @@ public class ExchangeController {
     }
 
     @GetMapping("latest")
-    public ResponseEntity<LatestRatesDTO> getLatestRates(){
-        return ResponseEntity.ok().body(exchangeService.getLatestRates());
+    public ResponseEntity<LatestRatesDTO> getLatestRates
+            (@RequestParam(name = "symbols", required = false,defaultValue = "") String symbols,
+             @RequestParam(name = "base",required = false,defaultValue = "usd") String base
+    ){
+        return ResponseEntity.ok().body(exchangeService.getLatestRates(symbols,base));
     }
 
     @GetMapping("currencies")
-    public ResponseEntity<Map<String,String>> getCurrencies(@RequestParam(name = "show_alternative") boolean show_alternative){
+    public ResponseEntity<Map<String,String>> getCurrencies(
+            @RequestParam(name = "show_alternative",defaultValue = "False") boolean show_alternative){
         return ResponseEntity.ok().body(exchangeService.getCurrencies(show_alternative));
     }
 

@@ -13,7 +13,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 import reactor.core.publisher.Mono;
 
 import java.net.URI;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -28,33 +30,24 @@ public class ExchangeService {
 
     }
 
-    public LatestRatesDTO getLatestRates(){
+    public LatestRatesDTO getLatestRates(String symbols, String base){
+        if(!"usd".equals(base)){
 
-        URI uri = UriComponentsBuilder
-                .fromUriString("/api/latest.json")
-                .queryParam("app_id", this.API_TOKEN)
-                .queryParam("symbols","")
-                .build()
-                .toUri();
+            LatestRatesDTO ratesDTO = openExchangeConsumer.getLatestRates(this.API_TOKEN,symbols,"usd");
+            Map<String, Double> ratesCorrigidas = new HashMap<>();
+            String baseUp = base.toUpperCase();
+            for(String chave : ratesDTO.rates().keySet()){
+                ratesCorrigidas.put(chave,ratesDTO.rates().get(chave)/ratesDTO.rates().get(baseUp));
+            }
 
-        WebClient client = WebClient.builder()
-                .baseUrl("https://openexchangerates.org"+uri.toString())
-                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                .build();
+            return new LatestRatesDTO(ratesCorrigidas,
+                    null,
+                    null,
+                    null,
+                    null);
 
-
-//        System.out.println(uri.toString());
-
-        LatestRatesDTO res = client.get()
-                .retrieve()
-                .onStatus(HttpStatusCode::isError,
-                        erro -> {
-                            return Mono.error(new Exception("Erro ao processar os dados"));
-                        })
-                .bodyToMono(LatestRatesDTO.class)
-                .block();
-
-        return res;
+        }
+        return openExchangeConsumer.getLatestRates(this.API_TOKEN,symbols,base);
     }
 
     public Map<String,String> getCurrencies(Boolean show_alternatives){
