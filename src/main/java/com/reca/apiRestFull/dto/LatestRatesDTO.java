@@ -14,6 +14,8 @@ public record LatestRatesDTO(
         @JsonIgnore
         String timestamp,
         @JsonIgnore
-        String base
+        String base,
+        @JsonIgnore
+        boolean isOffline
 ) {
 }

@@ -19,19 +19,18 @@ public class PriceModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "rate")
-    @Comment("Valuation for base in determinant timestap")
-    private Double rate;
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
 
-    @Column(name = "timestamp")
-    private LocalDateTime timestamp;
-
-    @Column(name = "value")
+    @Column(name = "cl_value")
     private Double value;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "base_id")
-    private CurrencieModel base;
+    @Column(name = "cl_base")
+    private String base;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "currencie_id")
+    private CurrencieModel currencie;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

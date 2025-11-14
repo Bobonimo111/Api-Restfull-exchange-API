@@ -13,7 +13,7 @@ public interface OpenExchangeConsumer {
 
     // siglas por nomes
     @GetMapping("api/currencies.json")
-    Map<String,String> getOcurrencies(
+    Map<String,String> getCurrencies(
             @RequestParam(name = "app_id",required = true) String token  ,
             @RequestParam(name = "show_alternative",defaultValue = "false") Boolean show_alternative
     );
