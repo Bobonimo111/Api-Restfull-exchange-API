@@ -38,51 +38,51 @@ public class ExchangeController {
         return ResponseEntity.ok().body(exchangeService.getCurrencies(show_alternative));
     }
 
-    @GetMapping("rate-by-name")
-    public ResponseEntity<?> getRateByName(
-            @RequestParam(name = "name") String name
-    ) {
-        try {
-            Double rate = exchangeService.getRateByCurrencyName(name);
-            RateResponseDTO responseBody = new RateResponseDTO(name, rate,false);
-            return ResponseEntity.ok(responseBody);
-        } catch (EntityNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
-    }
-
-    @GetMapping("rate-by-code")
-    public ResponseEntity<?> getRateByCode(
-            @RequestParam(name = "code") String code
-    ) {
-        try {
-            Double rate = exchangeService.getRateBySymbol(code);
-            RateResponseDTO responseBody = new RateResponseDTO(code, rate,false);
-            return ResponseEntity.ok(responseBody);
-        } catch (EntityNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
-    }
-
-    @PostMapping("convert-to-usd")
-    public ResponseEntity<?> convertToUsd(
-            @RequestBody ConversionRequestDTO request
-    ) {
-        try {
-            Double usdValue = exchangeService.convertToUsd(request.code(), request.value());
-            RateResponseDTO response = new RateResponseDTO("USD", usdValue,false);
-            return ResponseEntity.ok(response);
-        } catch (EntityNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
-    }
-
     @GetMapping("teapot")
     public ResponseEntity<String> getTeapotStatus() {
         return ResponseEntity
                 .status(HttpStatus.I_AM_A_TEAPOT)
                 .body("O servidor é um bule de chá e se recusa a preparar café! 🫖");
     }
+
+    //    @GetMapping("rate-by-name")
+//    public ResponseEntity<?> getRateByName(
+//            @RequestParam(name = "name") String name
+//    ) {
+//        try {
+//            Double rate = exchangeService.getRateByCurrencyName(name);
+//            RateResponseDTO responseBody = new RateResponseDTO(name, rate,false);
+//            return ResponseEntity.ok(responseBody);
+//        } catch (EntityNotFoundException e) {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+//        }
+//    }
+//
+//    @GetMapping("rate-by-code")
+//    public ResponseEntity<?> getRateByCode(
+//            @RequestParam(name = "code") String code
+//    ) {
+//        try {
+//            Double rate = exchangeService.getRateBySymbol(code);
+//            RateResponseDTO responseBody = new RateResponseDTO(code, rate,false);
+//            return ResponseEntity.ok(responseBody);
+//        } catch (EntityNotFoundException e) {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+//        }
+//    }
+//
+//    @PostMapping("convert-to-usd")
+//    public ResponseEntity<?> convertToUsd(
+//            @RequestBody ConversionRequestDTO request
+//    ) {
+//        try {
+//            Double usdValue = exchangeService.convertToUsd(request.code(), request.value());
+//            RateResponseDTO response = new RateResponseDTO("USD", usdValue,false);
+//            return ResponseEntity.ok(response);
+//        } catch (EntityNotFoundException e) {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+//        }
+//    }
 }

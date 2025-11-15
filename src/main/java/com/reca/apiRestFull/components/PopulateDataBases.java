@@ -56,7 +56,7 @@ public class PopulateDataBases implements CommandLineRunner {
                     .base("USD")
                     .value(latestRatesDTO.rates().get(key))
                     .createdAt(nowDateTime)
-                    .currencie(currencieRepository.findBySymbol(key))
+                    .currencie(currencieRepository.findBySymbol(key).orElse(null))
                     .build();
             priceRepository.save(priceModel);
         }

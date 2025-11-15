@@ -20,7 +20,7 @@ public class CurrencieController {
 
     @GetMapping
     public ResponseEntity<CurrenciesDTO> getAllCurrencie(){
-        return ResponseEntity.status(HttpStatus.CREATED).body(currencieService.getAllCurrencies());
+        return ResponseEntity.status(HttpStatus.OK).body(currencieService.getAllCurrencies());
     }
 
     @GetMapping("/{symbol}")
@@ -37,6 +37,12 @@ public class CurrencieController {
     @DeleteMapping("/{symbol}")
     public ResponseEntity<Void> deleteCurrencie(@PathVariable String symbol){
         currencieService.removeCurrencieBySymbol(symbol);
+        return ResponseEntity.status(HttpStatus.OK).body(null);
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<Void> putCurrencie(@PathVariable Long id, @RequestBody CurrencieDTO dto){
+        currencieService.updateCurrencie(id,dto);
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
