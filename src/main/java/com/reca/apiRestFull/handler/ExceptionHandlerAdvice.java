@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class ExceptionHandlerAdvice {
 
     @ResponseBody
-    @ExceptionHandler(Exception.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(RuntimeException.class)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> handler(Exception e){
         e.printStackTrace();
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

@@ -31,19 +31,19 @@ public class CurrencieController {
     @PostMapping
     public ResponseEntity<Void> getCurrencie(@RequestBody CurrencieDTO dto){
         currencieService.CreateNewCurrencie(dto);
-        return ResponseEntity.status(HttpStatus.OK).body(null);
+        return ResponseEntity.status(HttpStatus.CREATED).body(null);
     }
 
     @DeleteMapping("/{symbol}")
     public ResponseEntity<Void> deleteCurrencie(@PathVariable String symbol){
         currencieService.removeCurrencieBySymbol(symbol);
-        return ResponseEntity.status(HttpStatus.OK).body(null);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
     }
 
     @PutMapping("{id}")
     public ResponseEntity<Void> putCurrencie(@PathVariable Long id, @RequestBody CurrencieDTO dto){
         currencieService.updateCurrencie(id,dto);
-        return ResponseEntity.status(HttpStatus.OK).body(null);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
     }
 
 }
